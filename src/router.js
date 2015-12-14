@@ -8,6 +8,7 @@ import MessagePage from './pages/message-page'
 import Layout from './layout'
 import Qs from 'qs'
 import xhr from 'xhr'
+import config from './config'
 
 function requiresAuth (handlerName) {
   return function () {
@@ -51,7 +52,7 @@ export default Router.extend({
 
   login () {
     const params = {
-      client_id: '74c39723b7ef80c1470a',
+      client_id: config.CLIENT_ID,
       redirect_uri: window.location.origin + '/auth/callback',
       scope: 'user,repo'
     }
@@ -68,7 +69,7 @@ export default Router.extend({
     const params = Qs.parse(query)
 
     xhr({
-      url: 'https://gatekeeper-ghutils.herokuapp.com/authenticate/' + params.code,
+      url: config.AUTH_URL + '/' + params.code,
       json: true
     }, (err, req, body) => {
       if (err) { window.alert(err) }
